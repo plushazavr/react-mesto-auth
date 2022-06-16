@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react'
+import {useEffect, useState} from 'react'
 import './../index.css'
 import Header from './Header';
 import Main from './Main';
@@ -10,9 +10,18 @@ import EditAvatarPopup from './EditAvatarPopup';
 import AddPlacesPopup from './AddPlacePopup';
 import {CurrentUserContext,} from '../contexts/CurrentUserContext';
 import api from "../utils/api";
-
+import {Redirect, Route, Switch, useHistory} from "react-router-dom";
+import ProtectedRoute from "./ProtectedRoute";
+import Register from './Register.js';
+import * as auth from '../utils/auth';
+import Login from "./Login";
+import InfoTooltip from "./InfoTooltip";
 
 function App() {
+  useEffect(() => {
+    checkToken()
+  }, [])
+
     const [isEditProfilePopupOpen, setEditProfilePopupOpen] = useState(false);
     const [isAddPlacePopupOpen, setAddPlacePopupOpen] = useState(false);
     const [isEditAvatarPopupOpen, setEditAvatarPopupOpen] = useState(false);
@@ -25,21 +34,28 @@ function App() {
         avatar: 'Test avatar',
     });
 
-    useEffect(() => {
-        setIsLoading(true);
+    const [loggedIn, setLoggedIn] = useState(false);
+    const [isSuccess, setIsSuccess] = useState(false);
+    const [isInfoTooltipPopupOpen, setIsInfoTooltipPopupOpen] = useState(false);
+    const [userEmail, setUserEmail] = useState("");
+    const history = useHistory()
 
-        Promise.all([api.getUserInfo(), api.getInitialCards()])
-            .then(([userData, cardsData]) => {
-                setCurrentUser(userData);
-                setCards(cardsData);
-            })
-            .catch((err) => {
-                console.log(`Не удалось получить данные с сервера. ${err}`);
-            })
-            .finally(() => {
-                setIsLoading(false);
-            });
-    }, [])
+    useEffect(() => {
+      setIsLoading(true);
+      if (loggedIn) {
+          Promise.all([api.getUserInfo(), api.getInitialCards()])
+              .then(([userData, cardsData]) => {
+                  setCurrentUser(userData);
+                  setCards(cardsData);
+              })
+              .catch((err) => {
+                  console.log(`Не удалось получить данные с сервера. ${err}`);
+              })
+              .finally(() => {
+                  setIsLoading(false);
+              });
+      }
+    }, [loggedIn]);
 
     function handleUpdateUser(data) {
         api.setUserInfo(data)
@@ -122,23 +138,103 @@ function App() {
         setAddPlacePopupOpen(false);
         setEditAvatarPopupOpen(false);
         setSelectedCard(null);
+        setIsInfoTooltipPopupOpen(false);
+    }
+
+    function handleRegister(email, password) {
+      auth.register(email, password)
+          .then(() => {
+              setIsSuccess(true);
+              setIsInfoTooltipPopupOpen(true);
+              history.push('/sign-in');
+          })
+          .catch((err) => {
+              setIsSuccess(false);
+              setIsInfoTooltipPopupOpen(true);
+              console.log(`${err}`);
+          })
+    }
+
+    function handleLogin(email, password) {
+      auth.authorize(email, password)
+          .then((response) => {
+              if (response) {
+                  setLoggedIn(true)
+                  localStorage.setItem('jwt', response.token);
+                  setUserEmail(email);
+                  history.push('/');
+              }
+          })
+          .catch((err) => {
+              setIsSuccess(false);
+              setIsInfoTooltipPopupOpen(true);
+              console.log(`${err}`);
+          })
+    }
+
+    const handleSignOut = () => {
+      setLoggedIn(false);
+      localStorage.removeItem('jwt');
+      history.push("/sign-in");
+    }
+
+    const checkToken = () => {
+      const jwt = localStorage.getItem('jwt')
+      if (jwt) {
+          console.log('jwt', jwt)
+          auth.checkToken(jwt)
+              .then(response => {
+                  setLoggedIn(true);
+                  setUserEmail(response.data.email);
+                  history.push('/')
+              })
+              .catch((err) => {
+                  console.log(`Error: ${err}`);
+              })
+      }
     }
 
     return (
         <CurrentUserContext.Provider value={currentUser}>
             <div className="page">
                 <div className="container">
-                    <Header/>
-
-                    <Main
-                        cards={cards}
-                        onEditProfile={handleEditProfilePopupOpen}
-                        onAddPlace={handleAddPlacePopupOpen}
-                        onEditAvatar={handleEditAvatarPopupOpen}
-                        onCardClick={handleCardClick}
-                        onCardLike={handleCardLike}
-                        onCardDelete={handleCardDelete}
+                    <Header
+                      loggedIn={loggedIn}
+                      userEmail={userEmail}
+                      onSignOut={handleSignOut}
                     />
+
+                    <Switch>
+                      <ProtectedRoute
+                          exact path="/"
+                          loggedIn={loggedIn}
+                          component={Main}
+                          cards={cards}
+                          onEditProfile={handleEditProfilePopupOpen}
+                          onAddPlace={handleAddPlacePopupOpen}
+                          onEditAvatar={handleEditAvatarPopupOpen}
+                          onCardClick={handleCardClick}
+                          onCardLike={handleCardLike}
+                          onCardDelete={handleCardDelete}
+                          isLoading={isLoading}
+                      />
+
+                      <Route path="/sign-up">
+                            <Register
+                                onRegister={handleRegister}
+                            />
+                      </Route>
+                      <Route path="/sign-in">
+                            <Login
+                                onLogin={handleLogin}
+                            />
+                      </Route>
+                      <Route exact path="*">
+                            {loggedIn ? <Redirect to="/"/> : <Redirect to="/sign-in"/>}
+                      </Route>
+                    </Switch>
+
+                      
                     <Footer/>
 
                     <EditProfilePopup
@@ -171,6 +267,12 @@ function App() {
 
                     <ImagePopup
                         card={selectedCard}
+                        onClose={closeAllPopups}
+                    />
+
+                    <InfoTooltip
+                        isOpen={isInfoTooltipPopupOpen}
+                        isSuccess={isSuccess}
                         onClose={closeAllPopups}
                     />
                 </div>
