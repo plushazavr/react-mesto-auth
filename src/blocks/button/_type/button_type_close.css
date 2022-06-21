@@ -3,6 +3,7 @@
   margin: 0;
   width: 32px;
   height: 32px;
+  background: none;
   background-image: url(../../../images/close.svg);
   background-position: center;
   background-repeat: no-repeat;

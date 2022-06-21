@@ -1,0 +1,18 @@
+.login__input {
+  font-family: inherit;
+  width: 100%;
+  margin: 1px 0 0;
+  padding: 10px 0 9px;
+  box-sizing: border-box;
+  border: 0;
+  font-size: 14px;
+  line-height: 1.21;
+  outline: none;
+  color: #fff;
+  background-color: unset;
+  border-bottom: 2px solid #ccc;
+}
+
+.login__input:first-of-type {
+  margin: 0;
+}

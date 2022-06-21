@@ -9,15 +9,15 @@ function Header({loggedIn, userEmail, onSignOut}) {
 
         {!loggedIn ?
                 (<nav>
-                        <Route path='/sign-in'>
+                        <Route path='/signin'>
                             <Link className="header__link"
-                                  to="/sign-up">
+                                  to="/signup">
                                 Регистрация
                             </Link>
                         </Route>
-                        <Route path='/sign-up'>
+                        <Route path='/signup'>
                             <Link className="header__link"
-                                  to="/sign-in">
+                                  to="/signin">
                                 Войти
                             </Link>
                         </Route>
