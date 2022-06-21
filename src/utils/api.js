@@ -4,13 +4,16 @@ class Api {
       this._headers = data.headers;
   }
 
+  //  Ответ
   _checkResponseData(res) {
       if (res.ok) {
           return res.json();
       }
+      // если ошибка отклоняем
       return Promise.reject(`Ошибка: ${res.status}`);
   }
 
+  // Получение карточек при загрузке
   getInitialCards() {
       return fetch(`${this._baseUrl}/cards`, {
           method: 'GET',
@@ -19,6 +22,7 @@ class Api {
           .then(this._checkResponseData);
   }
 
+  // Получение данных о пользователе
   getUserInfo() {
       return fetch(`${this._baseUrl}/users/me`, {
           method: 'GET',
@@ -27,6 +31,7 @@ class Api {
           .then(this._checkResponseData);
   }
 
+  // Установка данных о пользователе
   setUserInfo(userData) {
       return fetch(`${this._baseUrl}/users/me`, {
           method: 'PATCH',
@@ -39,6 +44,7 @@ class Api {
           .then(this._checkResponseData);
   }
 
+  // Добавление карточки пользователем
   addUserCard(data) {
       return fetch(`${this._baseUrl}/cards`, {
           method: 'POST',
@@ -51,6 +57,7 @@ class Api {
           .then(this._checkResponseData);
   }
 
+  // Удаление карточки пользователем
   deleteCard(id) {
       return fetch(`${this._baseUrl}/cards/${id}`, {
           method: 'DELETE',
@@ -59,6 +66,15 @@ class Api {
           .then(this._checkResponseData);
   }
 
+  changeLikeCardStatus(cardId, isLiked) {
+      if (isLiked) {
+          return this.likeCard(cardId);
+      } else {
+          return this.dislikeCard(cardId);
+      }
+  }
+
+  //   Установка лайка
   likeCard(id) {
       return fetch(`${this._baseUrl}/cards/${id}/likes`, {
           method: 'PUT',
@@ -67,6 +83,7 @@ class Api {
           .then(this._checkResponseData);
   }
 
+  // Снятие лайков
   dislikeCard(id) {
       return fetch(`${this._baseUrl}/cards/likes/${id}`, {
           method: 'DELETE',
@@ -75,16 +92,9 @@ class Api {
           .then(this._checkResponseData)
   }
 
-  changeLikeCardStatus(cardId, isLiked) {
-    if (isLiked) {
-        return this.likeCard(cardId);
-    } else {
-        return this.dislikeCard(cardId);
-    }
-  }
-
+  //  Рад актирование  аватара пользователя
   updateUserAvatar(data) {
-      return fetch (`${this._baseUrl}/users/me/avatar`, {
+      return fetch(`${this._baseUrl}/users/me/avatar`, {
           method: 'PATCH',
           headers: this._headers,
           body: JSON.stringify({

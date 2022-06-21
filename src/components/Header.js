@@ -4,20 +4,22 @@ import {Link, Route} from "react-router-dom";
 
 function Header({loggedIn, userEmail, onSignOut}) {
     return (
-      <header className="header">      
-        <img className="header__logo" src={logoPath} alt="Логотип"/>
-
+      <header className="header">
+        <a href="#">
+          <img alt="Логотип" className="header__logo" src={logoPath}/>
+        </a>  
+        
         {!loggedIn ?
                 (<nav>
-                        <Route path='/signin'>
+                        <Route path='/sign-in'>
                             <Link className="header__link"
-                                  to="/signup">
+                                  to="/sign-up">
                                 Регистрация
                             </Link>
                         </Route>
-                        <Route path='/signup'>
+                        <Route path='/sign-up'>
                             <Link className="header__link"
-                                  to="/signin">
+                                  to="/sign-in">
                                 Войти
                             </Link>
                         </Route>
