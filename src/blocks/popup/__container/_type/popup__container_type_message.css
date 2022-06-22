@@ -5,3 +5,10 @@
   color: #000;
   background-color: #fff;
 }
+
+@media screen and (max-width: 1045px) {
+  .popup__container_type_message {
+    width: 280px;
+    padding: 50px 18px;
+  }
+}

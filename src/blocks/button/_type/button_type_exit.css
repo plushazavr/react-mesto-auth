@@ -4,13 +4,13 @@
   font-size: 18px;
   line-height: 22px;
   font-weight: 400;
-  color: #fff;
+  color: #A9A9A9;
   background-color: inherit;
   border: none;
   cursor: pointer;
   transition: opacity .5s ease;
 }
 
-.header__button:hover {
+.button_type_exit:hover {
   opacity: 0.6;
 }

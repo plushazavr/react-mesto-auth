@@ -48,7 +48,7 @@ const Register = ({onRegister}) => {
               required
         />
         <p className="login__error" id="email-error"/>
-        <button type="submit" onSubmit={handleSubmit} className="popup__btn-submit popup__btn-submit_type_auth">
+        <button type="submit" onSubmit={handleSubmit} className="button button_type_submit_auth">
             Зарегистрироваться
         </button>
         <p className="login__text">
