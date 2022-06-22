@@ -28,8 +28,7 @@ function App() {
   const [isAddPlacePopupOpen, setAddPlacePopupOpen] = useState(false);
   const [isEditAvatarPopupOpen, setEditAvatarPopupOpen] = useState(false);    
   const [cards, setCards] = useState([]);    
-  const [selectedCard, setSelectedCard] = useState(null);    
-  const [isLoading, setIsLoading] = useState(false);    
+  const [selectedCard, setSelectedCard] = useState(null);
   const [currentUser, setCurrentUser] = useState({
     name: 'TestUser',
     about: 'Test',
@@ -42,7 +41,6 @@ function App() {
   const history = useHistory();
 
   useEffect(() => {
-    setIsLoading(true);
     if (loggedIn) {
       Promise.all([api.getUserInfo(), api.getInitialCards()])
         .then(([userData, cardsData]) => {
@@ -52,9 +50,6 @@ function App() {
         .catch((err) => {
             console.log(`Не удалось получить данные с сервера. ${err}`);
         })
-        .finally(() => {
-            setIsLoading(false);
-        });
     }
   }, [loggedIn]);
 
@@ -143,7 +138,7 @@ function App() {
   }
 
   function handleRegister(email, password) {
-    auth.register(email, password)
+    auth.register({email, password})
       .then(() => {
         setIsSuccess(true);
         setIsInfoTooltipPopupOpen(true);
@@ -157,7 +152,7 @@ function App() {
 }
 
   function handleLogin(email, password) {
-    auth.authorize(email, password)
+    auth.authorize({email, password})
       .then((response) => {
         if (response) {
           setLoggedIn(true)
@@ -216,7 +211,6 @@ function App() {
                 onCardClick={handleCardClick}
                 onCardLike={handleCardLike}
                 onCardDelete={handleCardDelete}
-                isLoading={isLoading}
               />
               <Route path="/sign-up">
                 <Register

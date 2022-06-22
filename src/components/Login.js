@@ -24,9 +24,9 @@ const Login = ({onLogin}) => {
 
   return (
     <div onSubmit={handleSubmit}
-          className="login">
+        className="login">
       <h2 className="login__heading">
-          Вход
+        Вход
       </h2>
       <form className="login__form">
         <input className="login__input"
@@ -48,7 +48,7 @@ const Login = ({onLogin}) => {
         />
         <p className="login__error" id="email-error"/>
         <button type="submit" className="button button_type_submit_auth">
-            Войти
+          Войти
         </button>
       </form>
     </div>

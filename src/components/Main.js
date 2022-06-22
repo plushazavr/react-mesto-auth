@@ -1,6 +1,5 @@
 import {useContext} from 'react'
 import Card from "./Card";
-import Loader from './Loader'
 import {CurrentUserContext} from '../contexts/CurrentUserContext';
 
 function Main(props) {
@@ -25,9 +24,7 @@ function Main(props) {
         </section>
 
         <section className="cards">
-          {props.isLoading
-              ? <Loader/>
-              : props.cards.map((card) => (
+          {props.cards.map((card) => (
                     <Card
                       key={card._id}
                       card={card}
