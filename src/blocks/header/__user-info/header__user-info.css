@@ -5,7 +5,6 @@
 
 @media screen and (max-width: 1024px) {
   .header__user-info {
-    flex-direction: column;
     align-items: flex-end;
     margin-left: auto;
   }
@@ -13,6 +12,6 @@
 
 @media screen and (max-width: 568px) {
   .header__user-info {
-    margin-right: 30px;
+    display: none;
   }
 }

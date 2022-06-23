@@ -16,6 +16,7 @@ import Register from './Register.js';
 import * as auth from '../utils/auth';
 import Login from "./Login";
 import InfoTooltip from "./InfoTooltip";
+import BurgerMenu from './BurgerMenu';
 
 function App() {
 
@@ -39,6 +40,11 @@ function App() {
   const [isInfoTooltipPopupOpen, setIsInfoTooltipPopupOpen] = useState(false);   
   const [userEmail, setUserEmail] = useState("");
   const history = useHistory();
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const onMobileMenuClick = () => {
+    setIsMobileMenuOpen(!isMobileMenuOpen);
+  };
+
 
   useEffect(() => {
     if (loggedIn) {
@@ -172,6 +178,7 @@ function App() {
     setLoggedIn(false);
     localStorage.removeItem('jwt');
     history.push("/sign-in");
+    setIsMobileMenuOpen(false);
   }
 
   const checkToken = () => {
@@ -191,13 +198,18 @@ function App() {
   }
 
   return (
+    
     <CurrentUserContext.Provider value={currentUser}>
-      <div className="page">
+      <div className={`page ${isMobileMenuOpen && 'page_type_mobile_opened'} ${
+        !loggedIn && 'page_type_mobile__hidden'
+      }`}>
         <div className="container">
+          <BurgerMenu onSignOut={handleSignOut} userEmail={userEmail}/>
           <Header
             loggedIn={loggedIn}
             userEmail={userEmail}
             onSignOut={handleSignOut}
+            onMobileMenuClick={onMobileMenuClick}
           />
           <Switch>
               <ProtectedRoute

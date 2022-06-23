@@ -1,8 +1,19 @@
-import React from 'react'
+import { useState, useEffect } from 'react'
 import logoPath from "../images/logo.svg";
-import {Link, Route} from "react-router-dom";
+import {Link, Route, useLocation} from "react-router-dom";
 
-function Header({loggedIn, userEmail, onSignOut}) {
+function Header({loggedIn, userEmail, onSignOut, onMobileMenuClick }) {
+  const location = useLocation();
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  useEffect(() => {
+    setIsMenuOpen(false);
+  }, [location]);
+
+  const handleMobileMenuClick = () => {
+    setIsMenuOpen(!isMenuOpen);
+    onMobileMenuClick();
+  };
 
   return (
     <header className="header">
@@ -27,14 +38,25 @@ function Header({loggedIn, userEmail, onSignOut}) {
                   </nav>
               ) :
               (
+                <div>
                   <div className="header__user-info">
                       <p className="header__email">{userEmail}</p>
                       <button onClick={onSignOut} className="button_type_exit" type="button">
-                          Выход
+                          Выйти
                       </button>
                   </div>
+                  <nav className="burger">
+                    <button
+                      onClick={handleMobileMenuClick}
+                      className={`button burger__button ${
+                        isMenuOpen && 'burger__button_active'
+                      }`}>            
+                    </button>
+                  </nav>
+                </div>
               )
         }
+        
     </header>
   );
 }

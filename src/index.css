@@ -72,3 +72,8 @@
 @import url(./blocks/login/__heading/login__heading.css);
 @import url(./blocks/login/__text/login__text.css);
 @import url(./blocks/login/__link/login__link.css);
+@import url(./blocks/burger-menu/burger-menu.css);
+@import url(./blocks/burger-menu/__email/burger-menu__email.css);
+@import url(./blocks/burger-menu/__user-info/burger-menu__user-info.css);
+@import url(./blocks/burger/__button/burger__button.css);
+@import url(./blocks/burger/burger.css);

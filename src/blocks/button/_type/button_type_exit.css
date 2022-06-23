@@ -9,6 +9,7 @@
   border: none;
   cursor: pointer;
   transition: opacity .5s ease;
+  margin-right: 30px;
 }
 
 .button_type_exit:hover {

@@ -13,3 +13,18 @@
   -ms-text-size-adjust: 100%;
   -moz-text-size-adjust: 100%;
 }
+
+@media screen and (max-width: 568px) {
+  .page {
+    transform: translateY(-143px);
+    transition: all 0.4s ease-in-out;
+  }
+
+  .page_type_mobile__hidden {
+    transform: translateY(-143px);
+  }
+
+  .page_type_mobile_opened {
+    transform: translateY(0);
+  }
+}
