@@ -4,6 +4,7 @@
 
 **Проектная работа по программе обучения на Я.Практикуме**
 ------
+[Ссылка на GitHub-pages](https://plushazavr.github.io/react-mesto-auth/)
 
 ![ПРЕВЬЮ]()
 
