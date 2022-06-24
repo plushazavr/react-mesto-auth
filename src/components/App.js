@@ -25,9 +25,9 @@ function App() {
   }, [])
 
 
-  const [isEditProfilePopupOpen, setEditProfilePopupOpen] = useState(false);
-  const [isAddPlacePopupOpen, setAddPlacePopupOpen] = useState(false);
-  const [isEditAvatarPopupOpen, setEditAvatarPopupOpen] = useState(false);    
+  const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
+  const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
+  const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);    
   const [cards, setCards] = useState([]);    
   const [selectedCard, setSelectedCard] = useState(null);
   const [currentUser, setCurrentUser] = useState({
@@ -65,7 +65,7 @@ function App() {
           setCurrentUser(res);
       })
       .then(() => {
-          setEditProfilePopupOpen(false);
+        setIsEditProfilePopupOpen(false);
       })
       .catch((err) => {
           console.log(`Ошибка обновления информации о пользователе: ${err}`);
@@ -78,7 +78,7 @@ function App() {
           setCards([newCard, ...cards]);
       })
       .then(() => {
-          setAddPlacePopupOpen(false);
+        setIsAddPlacePopupOpen(false);
       })
       .catch((err) => {
           console.log(`Невозможно опубликовать карту. ${err}`);
@@ -91,7 +91,7 @@ function App() {
           setCurrentUser(res);
       })
       .then(() => {
-          setEditAvatarPopupOpen(false);
+        setIsEditAvatarPopupOpen(false);
       })
       .catch((err) => {
           console.log(`Ошибка обновления аватара пользователя: ${err}`);
@@ -124,21 +124,21 @@ function App() {
   }
 
   function handleEditProfilePopupOpen() {
-    setEditProfilePopupOpen(!isEditProfilePopupOpen);
+    setIsEditProfilePopupOpen(!isEditProfilePopupOpen);
   }
 
   function handleAddPlacePopupOpen() {
-    setAddPlacePopupOpen(!isAddPlacePopupOpen);
+    setIsAddPlacePopupOpen(!isAddPlacePopupOpen);
   }
 
   function handleEditAvatarPopupOpen() {
-    setEditAvatarPopupOpen(!isEditAvatarPopupOpen);
+    setIsEditAvatarPopupOpen(!isEditAvatarPopupOpen);
   }
 
   function closeAllPopups() {
-    setEditProfilePopupOpen(false);
-    setAddPlacePopupOpen(false);
-    setEditAvatarPopupOpen(false);
+    setIsEditProfilePopupOpen(false);
+    setIsAddPlacePopupOpen(false);
+    setIsEditAvatarPopupOpen(false);
     setSelectedCard(null);
     setIsInfoTooltipPopupOpen(false);
   }
@@ -146,14 +146,16 @@ function App() {
   function handleRegister(email, password) {
     auth.register({email, password})
       .then(() => {
-        setIsSuccess(true);
-        setIsInfoTooltipPopupOpen(true);
+        setIsSuccess(true);        
         history.push('/sign-in');
       })
       .catch((err) => {
         setIsSuccess(false);
         setIsInfoTooltipPopupOpen(true);
         console.log(`Ошибка регистрации. ${err}`);
+      })
+      .finally(() => {
+        setIsInfoTooltipPopupOpen(true);
       })
 }
 

@@ -40,10 +40,6 @@ export const checkToken = (token) => {
             'Authorization': `Bearer ${token}`
         },
     })
-        .then(response => {
-            if (response.status === 200) {
-                return response.json()
-            }
-        })
-        .then(response => response)
+    .then(checkResponse)
+    .then(response => response)
 }

@@ -23,12 +23,11 @@ const Login = ({onLogin}) => {
   }
 
   return (
-    <div onSubmit={handleSubmit}
-        className="login">
+    <div className="login">
       <h2 className="login__heading">
         Вход
       </h2>
-      <form className="login__form">
+      <form onSubmit={handleSubmit} className="login__form">
         <input className="login__input"
               id="email"
               required name="email"
