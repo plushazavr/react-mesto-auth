@@ -6,8 +6,6 @@
 ------
 [Ссылка на GitHub-pages](https://plushazavr.github.io/react-mesto-auth/)
 
-![ПРЕВЬЮ]()
-
 ## Что использовалось: 
 * Flexbox and Grid Layout
 * Adaptive design
@@ -21,7 +19,7 @@
 * JWT токен
 * Написана регистрация, аутентификация и авторизация пользователя
 
-![ПРЕВЬЮ]()
+![ПРЕВЬЮ](https://github.com/plushazavr/IMG/blob/4db3d5dc5a4724dddde2611ff6220529d3a184a0/mesto-burger-menu.gif)
 
 ### Установка
 >Для начала работы с проектом вам необходимы: [NodeJS & npm](https://nodejs.org/en/) и [Git Bash](https://gitforwindows.org/) (для работы с Windows ОС)
